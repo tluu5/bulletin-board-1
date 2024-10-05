@@ -26,7 +26,7 @@
 
   <div>
     <label for="expires_on_field">Expires on</label>
-    <input type="expires_on_field" type="date" name="expires_on">
+    <input id="expires_on_field" type="date" name="expires_on">
   </div>
 
   <input type="hidden" id="board_id_field" name="board_id" value="<%= @the_board.id %>">
@@ -55,6 +55,28 @@
       <td><%= a_post.created_at.strftime("%b %e, %Y") %></td>
       <td><%= a_post.updated_at.strftime("%b %e, %Y") %></td>
     </tr>
-
   <% end %>
 </table>
+
+<h2>Expired posts</h2>
+
+<table border="1">
+  <tr>
+    <th>Title</th>
+    <th>Body</th>
+    <th>Posted on</th>
+    <th>Expires on</th>
+  </tr>
+
+  <% matching_posts.each do |a_post| %>
+    <% if a_post.expires_on < Date.today %>
+      <tr>
+        <td><%= a_post.title %></td>
+        <td><%= a_post.body %></td>
+        <td><%= a_post.created_at.strftime("%b %e, %Y") %></td>
+        <td><%= a_post.expires_on.strftime("%b %e, %Y") %></td>
+      </tr>
+    <% end %>
+  <% end %>
+</table>
+
